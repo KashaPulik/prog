@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <stdio.h>
 
 typedef struct {
 	size_t size;
@@ -37,7 +38,7 @@ IntVector *int_vector_copy(const IntVector *v)
 	copy->size = v->size;
 	copy->capacity = v->capacity;
 	for(int i = 0; i < v->size; i++) {
-		copy->data[i] = v->data;
+		copy->data[i] = v->data[i];
 	}
 	return copy;
 }
@@ -56,6 +57,8 @@ int int_vector_get_item(const IntVector *v, size_t index)
 void int_vector_set_item(IntVector *v, size_t index, int item)
 {
 	v->data[index] = item;
+	if(index == v->size)
+		v->size = index + 1;
 }
 
 size_t int_vector_get_size(const IntVector *v)
@@ -72,7 +75,7 @@ int int_vector_push_back(IntVector *v, int item)
 {
 	int* tmp;
 	if(v->size == v->capacity) {
-		tmp = (int) realloc(v->data, v->capacity * 2);
+		tmp = (int*) realloc(v->data, v->capacity * 2);
 		if(!tmp) {
 			return -1;
 		}
@@ -93,7 +96,11 @@ void int_vector_pop_back(IntVector *v)
 
 int int_vector_shrink_to_fit(IntVector *v)
 {
-	v->capacity = v->size;
+	if(v->capacity > v->size) {
+		v->capacity = v->size;
+		return 0;
+	}
+	return -1;
 }
 
 int int_vector_resize(IntVector *v, size_t new_size)
@@ -107,7 +114,7 @@ int int_vector_resize(IntVector *v, size_t new_size)
 		return 0;
 	}
 	if(new_size > v->capacity) {
-		tmp = (int) realloc(v->data, new_size);
+		tmp = (int*) realloc(v->data, new_size);
 		if(!tmp)
 			return -1;
 		v->data = tmp;
@@ -123,10 +130,18 @@ int int_vector_reserve(IntVector *v, size_t new_capacity)
 	int *tmp;
 	if(new_capacity <= v->capacity)
 		return -1;
-	tmp = (int) realloc(v->data, new_capacity);
+	tmp = (int*) realloc(v->data, new_capacity);
 	if(!tmp)
 		return -1;
 	v->data = tmp;
 	v->capacity = new_capacity;
 	return 0;
+}
+
+void is_allright(IntVector *v)
+{
+	if(!v){
+		printf("\x1b[31m" "Error" "\x1b[0m" ": can't allocate memory\n");
+		exit(1);
+	}
 }
