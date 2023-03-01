@@ -26,7 +26,7 @@ IntVector *int_vector_new(size_t initial_capacity)
 
 IntVector *int_vector_copy(const IntVector *v)
 {
-	IntVector *copy = (IntVector*) malloc(sizeof(v));
+	IntVector *copy = (IntVector*) malloc(sizeof(IntVector));
 	if(!copy) {
 		return NULL;
 	}
@@ -73,16 +73,18 @@ size_t int_vector_get_capacity(const IntVector *v)
 
 int int_vector_push_back(IntVector *v, int item)
 {
+	if(v->capacity == 0)
+		v->capacity = 1;
 	int* tmp;
 	if(v->size == v->capacity) {
-		tmp = (int*) realloc(v->data, v->capacity * 2);
+		tmp = (int*) realloc(v->data, v->capacity * sizeof(int) * 2);
 		if(!tmp) {
 			return -1;
 		}
 		v->data = tmp;
 		v->capacity *= 2;
 	}
-	v->data[v->size - 1] = item;
+	v->data[v->size] = item;
 	v->size++;
 	return 0;
 }
@@ -110,18 +112,21 @@ int int_vector_resize(IntVector *v, size_t new_size)
 		return -1;
 	}
 	if(new_size < v->size) {
-		v->capacity = int_vector_shrink_to_fit(v);
+		v->size = new_size;
+		int_vector_shrink_to_fit(v);
 		return 0;
 	}
 	if(new_size > v->capacity) {
-		tmp = (int*) realloc(v->data, new_size);
+		tmp = (int*) realloc(v->data, new_size * sizeof(int));
 		if(!tmp)
 			return -1;
 		v->data = tmp;
+		v->capacity = new_size;
 	}
 	for(int i = v->size; i < new_size; i++) {
 		v->data[i] = 0;
 	}
+	v->size = new_size;
 	return 0;
 }
 
