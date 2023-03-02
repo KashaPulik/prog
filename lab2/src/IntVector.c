@@ -73,8 +73,6 @@ size_t int_vector_get_capacity(const IntVector *v)
 
 int int_vector_push_back(IntVector *v, int item)
 {
-	if(v->capacity == 0)
-		v->capacity = 1;
 	int* tmp;
 	if(v->size == v->capacity) {
 		tmp = (int*) realloc(v->data, v->capacity * sizeof(int) * 2);
