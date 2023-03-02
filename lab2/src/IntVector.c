@@ -96,6 +96,8 @@ void int_vector_pop_back(IntVector *v)
 
 int int_vector_shrink_to_fit(IntVector *v)
 {
+	if(!v->size)
+		return -1;
 	int *tmp;
 	if(v->capacity > v->size) {
 		tmp = (int*) realloc(v->data, v->size);
