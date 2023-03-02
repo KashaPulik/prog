@@ -1,4 +1,4 @@
-assembly: app
+all: app
 app:
 	gcc -Wall -Werror -c src/*.c
 	gcc -Wall -Werror *.o -o app
@@ -9,5 +9,3 @@ run:
 	./app
 valgrind:
 	valgrind ./app
-
-
