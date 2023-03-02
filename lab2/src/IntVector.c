@@ -100,7 +100,7 @@ int int_vector_shrink_to_fit(IntVector *v)
 		return -1;
 	int *tmp;
 	if(v->capacity > v->size) {
-		tmp = (int*) realloc(v->data, v->size);
+		tmp = (int*) realloc(v->data, v->size * sizeof(int));
 		if(!tmp)
 			return -1;
 		v->data = tmp;
