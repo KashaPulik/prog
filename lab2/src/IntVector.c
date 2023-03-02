@@ -116,10 +116,6 @@ int int_vector_resize(IntVector *v, size_t new_size)
 	if(v->size == new_size) {
 		return -1;
 	}
-	if(new_size < v->size) {
-		v->size = new_size;
-		return 0;
-	}
 	if(new_size > v->capacity) {
 		tmp = (int*) realloc(v->data, new_size * sizeof(int));
 		if(!tmp)
