@@ -132,8 +132,6 @@ int int_vector_resize(IntVector *v, size_t new_size)
 
 int int_vector_reserve(IntVector *v, size_t new_capacity)
 {
-	if(!new_capacity)
-		return -1;
 	int *tmp;
 	if(new_capacity <= v->capacity)
 		return -1;
