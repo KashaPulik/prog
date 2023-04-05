@@ -2,7 +2,7 @@
 
 int main()
 {
-    FILE* file = fopen("crash.bin", "wb");
-    char numbers[5] = {0xff, 0x1f, 0xe2, 0x84, 0x7f};
-    fwrite(numbers, 1, 5, file);
+    FILE* file = fopen("bin/crash.bin", "wb");
+    char numbers[6] = {0xf1, 0x80, 0x80, 0xe0, 0x80, 0x80};
+    fwrite(numbers, 1, 6, file);
 }

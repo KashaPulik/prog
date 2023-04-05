@@ -1,5 +1,5 @@
-#include <error.h>
 #include <coder.h>
+#include <error.h>
 
 int encode(uint32_t code_point, CodeUnit* code_unit)
 {
@@ -60,80 +60,65 @@ int read_next_code_unit(FILE* in, CodeUnit* code_unit)
         error_output(__FILE__, __func__, __LINE__ - 1);
         return error;
     }
+    if (fread(code_unit->code, 1, 1, in) != 1) {
+        if (feof(in))
+            return error;
+    }
     while (1) {
         if (feof(in)) {
+            code_unit = NULL;
             return error;
-        }
-        if(fread(code_unit->code, 1, 1, in) != 1) {
-            continue;
         }
         if ((code_unit->code[0] & 0x80) == 0) {
             code_unit->length = 1;
             return success;
         } else if (code_unit->code[0] >> 5 == 0x6) {
-            if (feof(in)) {
-                error_output(__FILE__, __func__, __LINE__ - 1);
-                code_unit = NULL;
-                return error;
-            }
-            fread(&(code_unit->code[1]), 1, 1, in);
+            if (fread(&(code_unit->code[1]), 1, 1, in) != 1)
+                continue;
             if (code_unit->code[1] >> 6 != 0x2) {
+                code_unit->code[0] = code_unit->code[1];
                 continue;
             }
             code_unit->length = 2;
             return success;
         } else if (code_unit->code[0] >> 4 == 0xe) {
-            if (feof(in)) {
-                error_output(__FILE__, __func__, __LINE__ - 1);
-                code_unit = NULL;
-                return error;
-            }
-            fread(&(code_unit->code[1]), 1, 1, in);
+            if (fread(&(code_unit->code[1]), 1, 1, in) != 1)
+                continue;
             if (code_unit->code[1] >> 6 != 0x2) {
+                code_unit->code[0] = code_unit->code[1];
                 continue;
             }
-            if (feof(in)) {
-                error_output(__FILE__, __func__, __LINE__ - 1);
-                code_unit = NULL;
-                return error;
-            }
-            fread(&(code_unit->code[2]), 1, 1, in);
+            if (fread(&(code_unit->code[2]), 1, 1, in) != 1)
+                continue;
             if (code_unit->code[2] >> 6 != 0x2) {
+                code_unit->code[0] = code_unit->code[2];
                 continue;
             }
             code_unit->length = 3;
             return success;
         } else if (code_unit->code[0] >> 3 == 0x1e) {
-            if (feof(in)) {
-                error_output(__FILE__, __func__, __LINE__ - 1);
-                code_unit = NULL;
-                return error;
-            }
-            fread(&(code_unit->code[1]), 1, 1, in);
+            if (fread(&(code_unit->code[1]), 1, 1, in) != 1)
+                continue;
             if (code_unit->code[1] >> 6 != 0x2) {
+                code_unit->code[0] = code_unit->code[1];
                 continue;
             }
-            if (feof(in)) {
-                error_output(__FILE__, __func__, __LINE__ - 1);
-                code_unit = NULL;
-                return error;
-            }
-            fread(&(code_unit->code[2]), 1, 1, in);
+            if (fread(&(code_unit->code[2]), 1, 1, in) != 1)
+                continue;
             if (code_unit->code[2] >> 6 != 0x2) {
+                code_unit->code[0] = code_unit->code[2];
                 continue;
             }
-            if (feof(in)) {
-                error_output(__FILE__, __func__, __LINE__ - 1);
-                code_unit = NULL;
-                return error;
-            }
-            fread(&(code_unit->code[3]), 1, 1, in);
+            if (fread(&(code_unit->code[3]), 1, 1, in) != 1)
+                continue;
             if (code_unit->code[3] >> 6 != 0x2) {
+                code_unit->code[0] = code_unit->code[3];
                 continue;
             }
             code_unit->length = 4;
             return success;
         }
+        fread(code_unit->code, 1, 1, in);
     }
 }
 

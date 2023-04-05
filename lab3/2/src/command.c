@@ -89,7 +89,7 @@ int decode_file(const char* in_file_name, const char* out_file_name)
                 free(code_unit);
                 return success;
             }
-            error_output(__FILE__, __func__, __LINE__ - 1);
+            error_output(__FILE__, __func__, __LINE__ - 7);
             fclose(in);
             fclose(out);
             free(code_unit);
