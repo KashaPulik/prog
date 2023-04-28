@@ -45,12 +45,10 @@ int my_strcmp(char* str1, char* str2)
 
 char* my_strcpy(char* toHere, char* fromHere)
 {
-    char* tmp = toHere;
-    for (char* i = fromHere; *i != '\0'; i++) {
-        *tmp = *i;
-        tmp++;
-    }
-    *tmp = '\0';
+    int i;
+    for (i = 0; fromHere[i] != '\0'; i++)
+        toHere[i] = fromHere[i];
+    toHere[i] = '\0';
     return toHere;
 }
 
