@@ -53,26 +53,25 @@ char* my_strcpy(char* toHere, char* fromHere)
 
 char* my_strstr(char* haystack, char* needle)
 {
-    char* tmp_haystack = haystack;
     char* tmp_needle = needle;
-    char* buffer;
+    char* tmp_haystack;
     while (1) {
-        while (*tmp_haystack != *tmp_needle) {
-            if (*tmp_haystack == '\0')
+        while (*haystack != *tmp_needle) {
+            if (*haystack == '\0')
                 return NULL;
-            tmp_haystack++;
+            haystack++;
         }
-        buffer = tmp_haystack;
+        tmp_haystack = haystack;
         while (1) {
-            tmp_haystack++;
+            haystack++;
             tmp_needle++;
             if (*tmp_needle == '\0') {
-                return buffer;
+                return tmp_haystack;
             }
-            if (*tmp_haystack != *tmp_needle)
+            if (*haystack != *tmp_needle)
                 break;
         }
-        tmp_haystack = buffer + 1;
+        haystack = tmp_haystack + 1;
         tmp_needle = needle;
     }
 }
