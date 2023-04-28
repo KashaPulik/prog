@@ -24,9 +24,9 @@ char* my_strcat(char* dest, char* src)
 
 char* my_strchr(char* s, int c)
 {
-    for (char* i = s; *i != '\0'; i++)
-        if (*i == c)
-            return i;
+    for (int i = 0; s[i] != '\0'; i++)
+        if (s[i] == c)
+            return &s[i];
     return NULL;
 }
 
