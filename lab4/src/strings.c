@@ -84,22 +84,19 @@ char* my_strtok(char* string, char delim)
     if(last == NULL)
         return NULL;
     char* tmp = last;
-    char* buffer = tmp;
     while (*tmp == delim)
         tmp++;
     if (*tmp == '\0')
         return NULL;
-    buffer = tmp;
-    while (*tmp != delim) {
-        if (*tmp == '\0') {
+    int i;
+    for (i = 0; tmp[i] != delim; i++)
+        if (tmp[i] == '\0') {
             last = NULL;
-            return buffer;
+            return tmp;
         }
-        tmp++;
-    }
-    last = tmp + 1;
-    *tmp = '\0';
-    return buffer;
+    last += i + 1;
+    tmp[i] = '\0';
+    return tmp;
 }
 
 char* my_strpbrk(char* s, char* accept)
