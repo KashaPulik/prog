@@ -131,24 +131,23 @@ int my_isalpha(int c)
 
 int my_atoi(char* str)
 {
-    char* tmp_str = str;
     int minus = 0;
-    if(*tmp_str == '-') {
+    if(*str == '-') {
         minus = 1;
-        tmp_str++;
+        str++;
     }
     if (!my_isdigit(*str))
         return 0;
-    int number = *tmp_str - '0';
-    tmp_str++;
-    while (my_isdigit(*tmp_str)) {
+    int number = *str - '0';
+    str++;
+    while (my_isdigit(*str)) {
         if(number > 999999999) {
             number = 2147483647;
             break;
         }
         number *= 10;
-        number += *tmp_str - '0';
-        tmp_str++;
+        number += *str - '0';
+        str++;
     }
     if(minus)
         number = 0 - number;
