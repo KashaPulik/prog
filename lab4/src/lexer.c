@@ -1,13 +1,7 @@
 #include <stdlib.h>
 
 #include "./strings.h"
-
-enum exit_codes {
-    SUCCESS,
-    OVER_MAX_LEN,
-    ILLEGAL_CHARACTER,
-    WRONG_IP_DOMEN,
-};
+#include <lexer.h>
 
 char* skip_spaces(char* str)
 {
@@ -134,54 +128,48 @@ int check_domen(char* str)
 
 int check_path_symbols(char* str, char* wrong_symbol)
 {
-    if (my_strstr(str, wrong_symbol) != NULL)
-        return 0;
-    return 1;
+    if (my_strpbrk(str, wrong_symbol) == NULL)
+        return 1;
+    return 0;
 }
 
 int check(char* str)
 {
-    if(my_strlen(str) > 259)
+    if(my_strlen(str) > MAX_PATH)
         return OVER_MAX_LEN;
-    if (check_path_symbols(str, "\\") == 0)
+    if (check_path_symbols(str, "\\*?«<>|") == 0)
         return ILLEGAL_CHARACTER;
-    char* tmp_str = malloc(my_strlen(str) + 1);
-    tmp_str = my_strcpy(tmp_str, str);
-    tmp_str = my_strtok(tmp_str, '/');
-    if (my_isdigit(*tmp_str)) {
-        if (check_ip(tmp_str)) {
-            free(tmp_str);
+    char tmp_str[my_strlen(str) + 1];
+    my_strcpy(tmp_str, str);
+    my_strtok(tmp_str, '/');
+    if (my_isdigit(tmp_str[0]) && check_ip(tmp_str))
             return SUCCESS;
-        }
-    } else if (my_isalpha(*tmp_str)) {
-        if (check_domen(tmp_str)) {
-            free(tmp_str);
+    else if (my_isalpha(tmp_str[0]) && check_domen(tmp_str))
             return SUCCESS;
-        }
-    }
-    free(tmp_str);
+    
     return WRONG_IP_DOMEN;
 }
 
 char* convert_path(char* path)
 {
-    char* new_path = malloc(my_strlen(path) + 2);
+	int path_len = my_strlen(path);
+    char* new_path = malloc(path_len + 2);
     char* buffer = new_path;
-    char* path_copy = malloc(my_strlen(path) + 1);
-    path_copy = my_strcpy(path_copy, path);
+    char path_copy[path_len + 1];
+    my_strcpy(path_copy, path);
     char* tokens[16];
     int count = 0;
     tokens[count] = my_strtok(path_copy, '/');
-    *(tokens[count] + my_strlen(tokens[count]) - 1) = '\0';
+    int ip_len = my_strlen(tokens[count]);
+    tokens[count][ip_len - 1] = '\0';
     while (tokens[count] != NULL) {
         count++;
         tokens[count] = my_strtok(NULL, '/');
     }
-    *buffer = '\\';
-    buffer++;
-    *buffer = '\\';
-    buffer++;
-    *buffer = '\0';
+    buffer[0] = '\\';
+    buffer[1] = '\\';
+    buffer[2] = '\0';
+    buffer += 2;
     int i;
     for (i = 0; i < count - 1; i++) {
         buffer = my_strcat(buffer, tokens[i]);
@@ -196,7 +184,6 @@ char* convert_path(char* path)
         buffer++;
         *buffer = '\0';
     }
-    free(path_copy);
     return new_path;
 }
 

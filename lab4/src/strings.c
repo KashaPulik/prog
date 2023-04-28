@@ -111,6 +111,15 @@ char* my_strtok(char* string, char delim)
     return buffer;
 }
 
+char* my_strpbrk(char* s, char* accept)
+{
+	for(int i = 0; s[i] != '\0'; i++)
+		for(int j = 0; accept[j] != '\0'; j++)
+			if(s[i] == accept[j])
+				return &s[i];
+	return NULL;
+}
+
 int my_isdigit(int c)
 {
     if (c >= '0' && c <= '9')
