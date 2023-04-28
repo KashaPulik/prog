@@ -24,25 +24,20 @@ char* my_strcat(char* dest, char* src)
 
 char* my_strchr(char* s, int c)
 {
-    for (char* i = s; *i != '\0'; i++) {
-        if (*i == c) {
+    for (char* i = s; *i != '\0'; i++)
+        if (*i == c)
             return i;
-        }
-    }
     return NULL;
 }
 
 int my_strcmp(char* str1, char* str2)
 {
-    char* tmp_str1 = str1;
-    char* tmp_str2 = str2;
-    while (*tmp_str1 == *tmp_str2) {
-        if (*tmp_str1 == '\0')
+    int i;
+    for (i = 0; str1[i] == str2[i]; i++)
+        if (*str1 == '\0')
             return 0;
-        tmp_str1++;
-        tmp_str2++;
-    }
-    if (*tmp_str1 > *tmp_str2)
+        
+    if (str1[i] > str2[i])
         return 1;
     else
         return -1;
