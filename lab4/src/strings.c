@@ -89,6 +89,7 @@ char* my_strtok(char* string, char delim)
     if (*tmp == '\0')
         return NULL;
     int i;
+    last = tmp;
     for (i = 0; tmp[i] != delim; i++)
         if (tmp[i] == '\0') {
             last = NULL;

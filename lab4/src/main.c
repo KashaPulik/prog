@@ -16,14 +16,14 @@ int main()
         count++;
         tokens[count] = my_strtok(NULL, delim);
     }
-    // int exit_code;
-    // for(int i = 0; i < count; i++) {
-    //     exit_code = check(tokens[i]);
-    //     if(exit_code){
-    //         error_output(tokens[i], exit_code);
-    //         // *tokens[i] = '\0';
-    //     }
-    // }
+    int exit_code;
+    for(int i = 0; i < count; i++) {
+        exit_code = check(tokens[i]);
+        if(exit_code){
+            error_output(tokens[i], exit_code);
+            *tokens[i] = '\0';
+        }
+    }
     new_paths = process(&tokens[0], delim);
     output(new_paths);
     free(paths);

@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include "lexer.h"
 #include "interface.h"
+#include "strings.h"
 
 char* input(char* delim)
 {
@@ -13,7 +14,8 @@ char* input(char* delim)
     	scanf("%c", &ch);
     }
     printf("paths: ");
-    scanf("%s", paths);
+    fgets(paths, 1023, stdin);
+    paths[my_strlen(paths) - 1] = '\0';
     return paths;
 }
 
