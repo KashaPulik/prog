@@ -14,11 +14,10 @@ size_t my_strlen(char* str)
 char* my_strcat(char* dest, char* src)
 {
     char* tmp = dest + my_strlen(dest);
-    for(char* i = src; *i != '\0'; i++) {
-        *tmp = *i;
-        tmp++;
-    }
-    *tmp = '\0';
+    int i;
+    for(i = 0; src[i] != '\0'; i++)
+        tmp[i] = src[i];
+    tmp[i] = '\0';
     return dest;
 }
 
