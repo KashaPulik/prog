@@ -3,11 +3,8 @@
 
 size_t my_strlen(char* str)
 {
-    size_t count = 0;
-    while (*str != '\0') {
-        count++;
-        str++;
-    }
+    size_t count;
+    for(count = 0; str[count] != '\0'; count++);
     return count;
 }
 

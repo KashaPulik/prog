@@ -29,41 +29,39 @@ int check_end_symbol(char* str, char symbol)
     return 0;
 }
 
-int check_ip(char* str)
+int get_tokens(char** tokens, char* str, char delim)
 {
-    char* tmp_str = malloc(my_strlen(str) + 1);
-    char* buffer = tmp_str;
-    if (!check_end_symbol(str, ':')) {
-        free(buffer);
-        return 0;
-    }
-    tmp_str = my_strcpy(tmp_str, str);
-    tmp_str = skip_spaces(tmp_str);
-    *(tmp_str + my_strlen(tmp_str) - 1) = '\0';
     int count = 0;
-    char* token;
-    char* tokens[16];
-    tokens[0] = my_strtok(tmp_str, '.');
+    tokens[0] = my_strtok(str, delim);
     while (tokens[count] != NULL) {
         count++;
-        tokens[count] = my_strtok(NULL, '.');
+        tokens[count] = my_strtok(NULL, delim);
     }
-    if (count != 4) {
-        free(buffer);
+    return count;
+}
+
+int check_ip(char* str)
+{
+    if (!check_end_symbol(str, ':'))
         return 0;
-    }
+    int len_str = my_strlen(str);
+    char tmp_str[len_str + 1];
+    my_strcpy(tmp_str, str);
+    tmp_str[len_str - 1] = '\0';
+    int after_space = skip_spaces(tmp_str);
+    char* token;
+    char* tokens[16];
+    int count = get_tokens(tokens, &tmp_str[after_space], '.');
+    if (count != 4)
+        return 0;
+
     for (count = 0; count < 4; count++) {
         token = tokens[count];
-        if (!is_number(token)) {
-            free(buffer);
+        if (!is_number(token))
             return 0;
-        }
-        if (my_atoi(token) > 255 || my_atoi(token) < 0) {
-            free(buffer);
+        if (my_atoi(token) > 255 || my_atoi(token) < 0)
             return 0;
-        }
     }
-    free(buffer);
     return 1;
 }
 
@@ -88,41 +86,22 @@ int is_word(char* str)
 
 int check_domen(char* str)
 {
-    char* tmp_str = malloc(my_strlen(str) + 1);
-    char* buffer = tmp_str;
-    if (!check_end_symbol(str, ':')) {
-        free(buffer);
+    if (!check_end_symbol(str, ':'))
         return 0;
-    }
-    tmp_str = my_strcpy(tmp_str, str);
-    tmp_str = skip_spaces(tmp_str);
-    *(tmp_str + my_strlen(tmp_str) - 1) = '\0';
-    int count = 0;
-    char* token;
+    int str_len = my_strlen(str);
+    char tmp_str[str_len + 1];
+    my_strcpy(tmp_str, str);
+    int after_space = skip_spaces(tmp_str);
+    tmp_str[str_len - 1] = '\0';
     char* tokens[16];
-    tokens[0] = my_strtok(tmp_str, '.');
-    while (tokens[count] != NULL) {
-        count++;
-        if (count > 4) {
-            free(buffer);
-            return 0;
-        }
-        tokens[count] = my_strtok(NULL, '.');
-    }
-    if (count < 2) {
-        free(buffer);
+    int count = get_tokens(tokens, &tmp_str[after_space], '.');
+    if (count < 2 || count > 4)
         return 0;
-    }
     if (check_upper_domens(tokens[count - 1]))
         return 0;
-    for (int i = 0; i < count; i++) {
-        token = tokens[i];
-        if (!is_word(token)) {
-            free(buffer);
+    for (int i = 0; i < count; i++)
+        if (!is_word(tokens[i]))
             return 0;
-        }
-    }
-    free(buffer);
     return 1;
 }
 
