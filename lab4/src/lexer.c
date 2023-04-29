@@ -3,11 +3,11 @@
 #include "./strings.h"
 #include <lexer.h>
 
-char* skip_spaces(char* str)
+int skip_spaces(char* str)
 {
-    while(*str == ' ')
-        str++;
-    return str;
+    int i;
+    for(i = 0; str[i] == ' '; i++);
+    return i;
 }
 
 int is_number(char* str)
@@ -71,8 +71,8 @@ int check_upper_domens(char* str)
 {
     if (!(my_strcmp(str, "ru") && my_strcmp(str, "com")
           && my_strcmp(str, "org")))
-        return 1;
-    return 0;
+        return 0;
+    return 1;
 }
 
 int is_word(char* str)
@@ -113,7 +113,7 @@ int check_domen(char* str)
         free(buffer);
         return 0;
     }
-    if (!check_upper_domens(tokens[count - 1]))
+    if (check_upper_domens(tokens[count - 1]))
         return 0;
     for (int i = 0; i < count; i++) {
         token = tokens[i];
