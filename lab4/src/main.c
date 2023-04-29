@@ -10,12 +10,7 @@ int main()
     char* paths = input(&delim);
     char* new_paths;
     char* tokens[32];
-    int count = 0;
-    tokens[count] = my_strtok(paths, delim);
-    while (tokens[count] != NULL) {
-        count++;
-        tokens[count] = my_strtok(NULL, delim);
-    }
+    int count = get_tokens(tokens, paths, delim);
     int exit_code;
     for(int i = 0; i < count; i++) {
         exit_code = check(tokens[i]);
@@ -24,7 +19,7 @@ int main()
             *tokens[i] = '\0';
         }
     }
-    new_paths = process(&tokens[0], delim);
+    new_paths = process(tokens, delim);
     output(new_paths);
     free(paths);
     free(new_paths);
