@@ -1,12 +1,13 @@
 #include <stdlib.h>
 
-#include "./strings.h"
 #include <lexer.h>
+#include <strings.h>
 
 int skip_spaces(char* str)
 {
     int i;
-    for(i = 0; str[i] == ' '; i++);
+    for (i = 0; str[i] == ' '; i++)
+        ;
     return i;
 }
 
@@ -113,7 +114,7 @@ int check_path_symbols(char* str, char* wrong_symbols)
 
 int check(char* str)
 {
-    if(my_strlen(str) > MAX_PATH)
+    if (my_strlen(str) > MAX_PATH)
         return OVER_MAX_LEN;
     if (check_path_symbols(str, "\\*?«<>|") == 0)
         return ILLEGAL_CHARACTER;
@@ -121,10 +122,10 @@ int check(char* str)
     my_strcpy(tmp_str, str);
     my_strtok(tmp_str, '/');
     if (my_isdigit(tmp_str[0]) && check_ip(tmp_str))
-            return SUCCESS;
+        return SUCCESS;
     else if (my_isalpha(tmp_str[0]) && check_domen(tmp_str))
-            return SUCCESS;
-    
+        return SUCCESS;
+
     return WRONG_IP_DOMEN;
 }
 
@@ -165,8 +166,8 @@ char* process(char** tokens, char delim)
     char* new_paths = malloc(2048);
     char* buffer = new_paths;
     char* new_path;
-    while(*tokens != NULL) {
-        if(**tokens == '\0') {
+    while (*tokens != NULL) {
+        if (**tokens == '\0') {
             tokens++;
             continue;
         }

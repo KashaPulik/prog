@@ -3,4 +3,4 @@
 
 char* input(char* delim);
 void output(char* new_paths);
-void error_output(char *str, int exit_code);
+void error_output(char* str, int exit_code);

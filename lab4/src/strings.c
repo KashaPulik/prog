@@ -1,5 +1,6 @@
-#include "strings.h"
 #include <stdio.h>
+
+#include <strings.h>
 
 size_t my_strlen(char* str)
 {
