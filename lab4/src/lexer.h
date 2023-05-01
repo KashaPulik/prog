@@ -9,7 +9,6 @@ enum exit_codes {
     WRONG_IP_DOMEN,
 };
 
-char* convert_path(char* path);
 int check(char* str);
 char* process(char** tokens, char delim);
 int get_tokens(char** tokens, char* str, char delim);

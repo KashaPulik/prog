@@ -23,8 +23,7 @@ int is_number(char* str)
 
 int check_end_symbol(char* str, char symbol)
 {
-    char* tmp_str = str;
-    if (*(tmp_str + my_strlen(tmp_str) - 1) == symbol)
+    if (*(str + my_strlen(str) - 1) == symbol)
         return 1;
     return 0;
 }
@@ -69,8 +68,8 @@ int check_upper_domens(char* str)
 {
     if (!(my_strcmp(str, "ru") && my_strcmp(str, "com")
           && my_strcmp(str, "org")))
-        return 0;
-    return 1;
+        return 1;
+    return 0;
 }
 
 int is_word(char* str)
@@ -97,7 +96,7 @@ int check_domen(char* str)
     int count = get_tokens(tokens, &tmp_str[after_space], '.');
     if (count < 2 || count > 4)
         return 0;
-    if (check_upper_domens(tokens[count - 1]))
+    if (!check_upper_domens(tokens[count - 1]))
         return 0;
     for (int i = 0; i < count; i++)
         if (!is_word(tokens[i]))
@@ -105,9 +104,9 @@ int check_domen(char* str)
     return 1;
 }
 
-int check_path_symbols(char* str, char* wrong_symbol)
+int check_path_symbols(char* str, char* wrong_symbols)
 {
-    if (my_strpbrk(str, wrong_symbol) == NULL)
+    if (my_strpbrk(str, wrong_symbols) == NULL)
         return 1;
     return 0;
 }
@@ -131,7 +130,7 @@ int check(char* str)
 
 char* convert_path(char* path)
 {
-	int path_len = my_strlen(path);
+    int path_len = my_strlen(path);
     char* new_path = malloc(path_len + 2);
     char* buffer = new_path;
     char path_copy[path_len + 1];

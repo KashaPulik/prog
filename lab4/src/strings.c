@@ -1,10 +1,11 @@
-#include <stdio.h>
 #include "strings.h"
+#include <stdio.h>
 
 size_t my_strlen(char* str)
 {
     size_t count;
-    for(count = 0; str[count] != '\0'; count++);
+    for (count = 0; str[count] != '\0'; count++)
+        ;
     return count;
 }
 
@@ -12,7 +13,7 @@ char* my_strcat(char* dest, char* src)
 {
     char* tmp = dest + my_strlen(dest);
     int i;
-    for(i = 0; src[i] != '\0'; i++)
+    for (i = 0; src[i] != '\0'; i++)
         tmp[i] = src[i];
     tmp[i] = '\0';
     return dest;
@@ -32,7 +33,7 @@ int my_strcmp(char* str1, char* str2)
     for (i = 0; str1[i] == str2[i]; i++)
         if (str1[i] == '\0')
             return 0;
-        
+
     if (str1[i] > str2[i])
         return 1;
     else
@@ -78,7 +79,7 @@ char* my_strtok(char* string, char delim)
     static char* last;
     if (string != NULL)
         last = string;
-    if(last == NULL)
+    if (last == NULL)
         return NULL;
     char* tmp = last;
     while (*tmp == delim)
@@ -99,11 +100,11 @@ char* my_strtok(char* string, char delim)
 
 char* my_strpbrk(char* s, char* accept)
 {
-	for(int i = 0; s[i] != '\0'; i++)
-		for(int j = 0; accept[j] != '\0'; j++)
-			if(s[i] == accept[j])
-				return &s[i];
-	return NULL;
+    for (int i = 0; s[i] != '\0'; i++)
+        for (int j = 0; accept[j] != '\0'; j++)
+            if (s[i] == accept[j])
+                return &s[i];
+    return NULL;
 }
 
 int my_isdigit(int c)
@@ -113,13 +114,6 @@ int my_isdigit(int c)
     return 0;
 }
 
-int my_tolower(int c)
-{
-    if(c >= 'A' && c <= 'Z')
-        c += 'a' - 'A';
-    return c;
-}
-
 int my_isalpha(int c)
 {
     if (my_tolower(c) >= 'a' && my_tolower(c) <= 'z')
@@ -127,10 +121,17 @@ int my_isalpha(int c)
     return 0;
 }
 
+int my_tolower(int c)
+{
+    if (c >= 'A' && c <= 'Z')
+        c += 'a' - 'A';
+    return c;
+}
+
 int my_atoi(char* str)
 {
     int minus = 0;
-    if(*str == '-') {
+    if (*str == '-') {
         minus = 1;
         str++;
     }
@@ -139,7 +140,7 @@ int my_atoi(char* str)
     int number = *str - '0';
     str++;
     while (my_isdigit(*str)) {
-        if(number > 999999999) {
+        if (number > 999999999) {
             number = 2147483647;
             break;
         }
@@ -147,7 +148,7 @@ int my_atoi(char* str)
         number += *str - '0';
         str++;
     }
-    if(minus)
+    if (minus)
         number = 0 - number;
     return number;
 }
