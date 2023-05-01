@@ -11,6 +11,6 @@ char* my_strstr(char* haystack, char* needle);
 char* my_strtok(char* string, char delim);
 char* my_strpbrk(char* s, char* accept);
 int my_isdigit(int c);
-int my_tolower(int c);
 int my_isalpha(int c);
+int my_tolower(int c);
 int my_atoi(char* str);
