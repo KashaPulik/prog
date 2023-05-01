@@ -136,14 +136,9 @@ char* convert_path(char* path)
     char path_copy[path_len + 1];
     my_strcpy(path_copy, path);
     char* tokens[16];
-    int count = 0;
-    tokens[count] = my_strtok(path_copy, '/');
-    int ip_len = my_strlen(tokens[count]);
-    tokens[count][ip_len - 1] = '\0';
-    while (tokens[count] != NULL) {
-        count++;
-        tokens[count] = my_strtok(NULL, '/');
-    }
+    int count = get_tokens(tokens, path_copy, '/');
+    int ip_len = my_strlen(tokens[0]);
+    tokens[0][ip_len - 1] = '\0';
     buffer[0] = '\\';
     buffer[1] = '\\';
     buffer[2] = '\0';
